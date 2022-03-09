@@ -1,0 +1,6 @@
+[submodule "extensions/lipm-walking-controller-superbuild"]
+	path = extensions/lipm-walking-controller-superbuild
+	url = git@github.com:mc-rtc/lipm-walking-controller-superbuild.git
+[submodule "extensions/ana-avatar-controller-superbuild"]
+	path = extensions/ana-avatar-controller-superbuild
+	url = git@github.com:arntanguy/ana-avatar-controller-superbuild.git
