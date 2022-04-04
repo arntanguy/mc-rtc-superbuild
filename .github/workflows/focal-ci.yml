@@ -7,9 +7,6 @@ on:
   pull_request:
     branches:
       - '**'
-  schedule:
-    # Run on Sunday, Tuesday and Thursday nights
-    - cron: '0 22 * * 0,1,4'
 
 jobs:
   run:
