@@ -1,4 +1,4 @@
-name: CI Ubuntu Focal
+name: CI Ubuntu Focal (ANA)
 
 on:
   push:
