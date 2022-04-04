@@ -12,6 +12,11 @@ jobs:
   run:
     runs-on: ubuntu-20.04
     steps:
+    - name: Setup SSH
+      uses: MrSquaare/ssh-setup-action@v1
+      with:
+          host: github.com
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - uses: actions/checkout@v2
       with:
         submodules: recursive
