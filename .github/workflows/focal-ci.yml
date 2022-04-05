@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-        token: ${{ secrets.GH_CLONE_TOKEN }}
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
     - name: Install system dependencies
       shell: bash
       run: |
