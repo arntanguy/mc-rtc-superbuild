@@ -22,9 +22,16 @@ if(ROS_IS_ROS2)
 	    CATKIN_MAKE
 	    CATKIN_BUILD_ARGS --packages-skip joint_trajectory_controller franka_hardware franka_semantic_components franka_gripper franka_msgs franka_moveit_config franka_robot_state_broadcaster franka_example_controllers franka_bringup
     )
+    # The latest version of the robot server we can have at CNRS-LIRMM is 4.2.2
+    # According to the compability table: https://frankaemika.github.io/docs/compatibility.html
+    # This means that we can use libfranka >= 0.9.1 < 0.10.0
+    #
+    # However with any of these version the TSan unit test fails. Despite this
+    # it works on the real robot so we have simply disabled the unit tests here
     AddProject(libfranka
       GITHUB frankaemika/libfranka
-      GIT_TAG 0.13.2
+      GIT_TAG 0.9.2
+      CMAKE_ARGS -DBUILD_TESTS=OFF
     )
     set(mc_panda_DEPENDS libfranka)
     if(WITH_ROS_SUPPORT)
