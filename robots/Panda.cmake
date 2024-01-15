@@ -25,7 +25,7 @@ if(ROS_IS_ROS2)
       AddCatkinProject(franka_ros2
         GITHUB frankaemika/franka_ros
         GIT_TAG origin/humble
-        WORKSPACE "${CATKIN_WORKSPACE}"
+        WORKSPACE data_ws
         DEPENDS libfranka
       )
       list(APPEND mc_panda_DEPENDS franka_ros2)
@@ -44,7 +44,7 @@ else()
       AddCatkinProject(franka_ros
         GITHUB frankaemika/franka_ros
         GIT_TAG origin/0.8.1
-        WORKSPACE "${CATKIN_WORKSPACE}"
+        WORKSPACE data_ws
         DEPENDS libfranka
       )
       list(APPEND mc_panda_DEPENDS franka_ros)
