@@ -1,0 +1,6 @@
+[submodule "extensions/superbuild-extensions"]
+	path = extensions/superbuild-extensions
+	url = https://github.com/mc-rtc/superbuild-extensions.git
+[submodule "extensions/panda-prosthesis-superbuild"]
+	path = extensions/panda-prosthesis-superbuild
+	url = https://github.com/arntanguy/panda-prosthesis-superbuild.git

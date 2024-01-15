@@ -16,16 +16,22 @@ endif()
 
 if(ROS_IS_ROS2)
   if(Panda_DEPENDENCIES_FROM_SOURCE)
+    CreateCatkinWorkspace(
+	    ID franka_ws
+	    DIR catkin_ws_franka
+	    CATKIN_MAKE
+	    CATKIN_BUILD_ARGS --packages-skip joint_trajectory_controller franka_hardware franka_semantic_components franka_gripper franka_msgs franka_moveit_config franka_robot_state_broadcaster franka_example_controllers franka_bringup
+    )
     AddProject(libfranka
       GITHUB frankaemika/libfranka
-      GIT_TAG origin/0.8.0-rc
+      GIT_TAG 0.13.2
     )
     set(mc_panda_DEPENDS libfranka)
     if(WITH_ROS_SUPPORT)
       AddCatkinProject(franka_ros2
         GITHUB frankaemika/franka_ros2
         GIT_TAG origin/humble
-        WORKSPACE data_ws
+        WORKSPACE franka_ws
         DEPENDS libfranka
       )
       list(APPEND mc_panda_DEPENDS franka_ros2)
@@ -33,6 +39,7 @@ if(ROS_IS_ROS2)
   else()
     message(FATAL_ERROR "Panda dependencies binaries are not yet available from ROS2 APT mirrors, set Panda_DEPENDENCIES_FROM_SOURCE to ON")
   endif()
+  AptInstall(libpoco-dev)
 else()
   if(Panda_DEPENDENCIES_FROM_SOURCE)
     AddProject(libfranka
