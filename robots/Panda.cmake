@@ -23,7 +23,7 @@ if(ROS_IS_ROS2)
     set(mc_panda_DEPENDS libfranka)
     if(WITH_ROS_SUPPORT)
       AddCatkinProject(franka_ros2
-        GITHUB frankaemika/franka_ros
+        GITHUB frankaemika/franka_ros2
         GIT_TAG origin/humble
         WORKSPACE data_ws
         DEPENDS libfranka
