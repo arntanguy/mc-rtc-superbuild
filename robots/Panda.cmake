@@ -18,7 +18,7 @@ if(ROS_IS_ROS2)
   if(Panda_DEPENDENCIES_FROM_SOURCE)
     AddProject(libfranka
       GITHUB frankaemika/libfranka
-      GIT_TAG origin/0.8.0
+      GIT_TAG origin/0.8.0-rc
     )
     set(mc_panda_DEPENDS libfranka)
     if(WITH_ROS_SUPPORT)
