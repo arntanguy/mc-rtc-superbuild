@@ -66,8 +66,8 @@ AddProject(mc_panda
 )
 
 AddProject(mc_franka
-  GITHUB jrl-umi3218/mc_franka
-  GIT_TAG origin/master
+  GITHUB arntanguy/mc_franka
+  GIT_TAG origin/topic/FixTimestepThread
   DEPENDS mc_rtc mc_panda
 )
 
