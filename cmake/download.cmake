@@ -1,5 +1,5 @@
 # Download a file to the given file and error immediately if the download fails
-function(DownloadFile URL DESTINATION EXPECTED_SHA256)
+function(DowloadFile URL DESTINATION EXPECTED_SHA256)
   if(DEFINED "${DESTINATION}_URL")
     if("${${DESTINATION}_URL}" STREQUAL "${URL}" AND DEFINED "${DESTINATION}_DOWNLOAD_OK")
       return()
