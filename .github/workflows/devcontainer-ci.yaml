@@ -19,14 +19,28 @@ jobs:
       matrix:
         os: [jammy, noble]
     steps:
-    - name: Maximize build space
-      shell: bash
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /opt/ghc
-        sudo docker image prune --all --force
-        echo "===== AVAILABLE DISK SPACE ====="
-        df -h
+    # - name: Maximize build space
+    #   shell: bash
+    #   run: |
+    #     sudo rm -rf /usr/share/dotnet
+    #     sudo rm -rf /opt/ghc
+    #     sudo docker image prune --all --force
+    #     echo "===== AVAILABLE DISK SPACE ====="
+    #     df -h
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
+      with:
+        # this might remove tools that are actually needed,
+        # if set to "true" but frees about 6 GB
+        tool-cache: true
+        # all of these default to true, but feel free to set to
+        # "false" if necessary for your workflow
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: true
+        swap-storage: true
     - uses: actions/checkout@v3
       with:
         submodules: recursive
