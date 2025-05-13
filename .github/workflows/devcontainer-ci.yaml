@@ -25,8 +25,8 @@ jobs:
         sudo rm -rf /usr/share/dotnet
         sudo rm -rf /opt/ghc
         sudo docker image prune --all --force
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
+        echo "===== AVAILABLE DISK SPACE ====="
+        df -h
     - uses: actions/checkout@v3
       with:
         submodules: recursive
@@ -38,13 +38,23 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Pre-build dev container image
+    # This workflow tests building the image but does not push it to github container registry
+    - name: Pre-build dev container image (branches and forks)
+      if: (github.ref != 'refs/heads/main' && github.repository == 'mc-rtc/mc-rtc-superbuild') || github.repository != 'mc-rtc/mc-rtc-superbuild'
+      uses: devcontainers/ci@v0.3
+      with:
+        subFolder: .github/devcontainer/${{ matrix.os }}
+        configFile: .github/devcontainer/${{ matrix.os }}/devcontainer.json
+        push: never
+
+    # Main workflow builds and pushes
+    - name: Pre-build dev container image (main branch of official repository)
       if: github.ref == 'refs/heads/main' && github.repository == 'mc-rtc/mc-rtc-superbuild'
       uses: devcontainers/ci@v0.3
       with:
+        # cacheFrom: ghcr.io/arntanguy/mc-rtc-superbuild
         imageName: ghcr.io/mc-rtc/mc-rtc-superbuild
         imageTag: ${{ matrix.os }}
         subFolder: .github/devcontainer/${{ matrix.os }}
         configFile: .github/devcontainer/${{ matrix.os }}/devcontainer.json
-        # cacheFrom: ghcr.io/arntanguy/mc-rtc-superbuild
         push: always
