@@ -58,13 +58,24 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Check release
+      shell: bash
+      run: |
+        if [ -n "${{ github.event.client_payload.tag }}" ]; then
+          echo "This is a release, using version tag ${{ github.event.client_payload.tag }}"
+          echo "RELEASE_TAG=${{ github.event.client_payload.tag }}" >> $GITHUB_ENV
+        else
+          echo "This is not a release, using latest tag"
+          echo "RELEASE_TAG=latest" >> $GITHUB_ENV
+        fi
+
     - name: 'Docker: Build Standalone Release'
       shell: bash
       run: |
         cat .github/devcontainer/${{ matrix.containerName }}/Dockerfile
         echo "SSH_AUTH_SOCK = ${{ env.SSH_AUTH_SOCK }}"
         CONTAINER_NAME=ghcr.io/isri-aist/cdadance
-        CONTAINER_TAG=${{ matrix.buildPreset }}-standalone-latest
+        CONTAINER_TAG=${{ matrix.buildPreset }}-standalone-$RELEASE_TAG
         echo "CONTAINER_NAME=${CONTAINER_NAME}" >> $GITHUB_ENV
         echo "CONTAINER_TAG=${CONTAINER_TAG}" >> $GITHUB_ENV
 
@@ -84,7 +95,7 @@ jobs:
       uses: devcontainers/ci@v0.3
       with:
         imageName: ghcr.io/isri-aist/cdadance
-        imageTag: ${{ matrix.buildPreset }}-devcontainer-latest
+        imageTag: ${{ matrix.buildPreset }}-devcontainer-${{ env.RELEASE_TAG }}
         subFolder: .github/devcontainer/${{ matrix.containerName }}
         configFile: .github/devcontainer/${{ matrix.containerName }}/devcontainer.json
         push: always
