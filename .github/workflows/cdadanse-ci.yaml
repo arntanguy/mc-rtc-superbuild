@@ -17,7 +17,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # containerName: [cdadance-dev, cdadance-release]
         containerName: [cdadance-release]
         buildPreset: [cdadance-demo-auto, cdadance-demo-manual, cdadance-simu-auto, cdadance-simu-manual]
     steps:
@@ -79,7 +78,7 @@ jobs:
 
     # Publish cdadance-dev and cdadance-release docker images
     - name: "Devcontainer: Build Release Version (main branch of official repository)"
-      if: github ref == 'refs/heads/main' && github.repository == 'isri-aist/cdadance-superbuild'
+      if: github.ref == 'refs/heads/main' && github.repository == 'isri-aist/cdadance-superbuild'
       uses: devcontainers/ci@v0.3
       with:
         imageName: ghcr.io/isri-aist/cdadance
