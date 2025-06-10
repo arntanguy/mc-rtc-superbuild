@@ -21,7 +21,7 @@ jobs:
         containerName: [cdadance-release]
         buildPreset: [cdadance-demo-auto, cdadance-demo-manual, cdadance-simu-auto, cdadance-simu-manual]
     steps:
-    - name: Configure ssh-agent 
+    - name: Configure ssh-agent
       uses: webfactory/ssh-agent@v0.9.0
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
@@ -62,7 +62,7 @@ jobs:
       run: |
         cat .github/devcontainer/${{ matrix.containerName }}/Dockerfile
         echo "SSH_AUTH_SOCK = ${{ env.SSH_AUTH_SOCK }}"
-        CONTAINER_NAME=ghcr.io/mc-rtc/cdadance
+        CONTAINER_NAME=ghcr.io/isri-aist/cdadance
         CONTAINER_TAG=${{ matrix.buildPreset }}-standalone-latest
         echo "CONTAINER_NAME=${CONTAINER_NAME}" >> $GITHUB_ENV
         echo "CONTAINER_TAG=${CONTAINER_TAG}" >> $GITHUB_ENV
@@ -79,12 +79,11 @@ jobs:
 
     # Publish cdadance-dev and cdadance-release docker images
     - name: "Devcontainer: Build Release Version (main branch of official repository)"
-      if: github.ref == 'refs/heads/demo/CDADance' && github.repository == 'mc-rtc/mc-rtc-superbuild'
+      if: github ref == 'refs/heads/main' && github.repository == 'isri-aist/cdadance-superbuild'
       uses: devcontainers/ci@v0.3
       with:
-        imageName: ghcr.io/mc-rtc/cdadance
+        imageName: ghcr.io/isri-aist/cdadance
         imageTag: ${{ matrix.buildPreset }}-devcontainer-latest
         subFolder: .github/devcontainer/${{ matrix.containerName }}
         configFile: .github/devcontainer/${{ matrix.containerName }}/devcontainer.json
         push: always
-

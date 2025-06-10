@@ -23,7 +23,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Allow to keep apt cache between builds
 RUN rm -f /etc/apt/apt.conf.d/docker-clean
 
-# Install basic dependencies 
+# Install basic dependencies
 RUN --mount=type=cache,target=/var/cache/apt \
   apt-get update \
   && \

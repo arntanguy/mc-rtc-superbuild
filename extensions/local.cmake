@@ -4,7 +4,8 @@ include(${EXTENSIONS_DIR}/interfaces/mc_mujoco.cmake)
 include(${EXTENSIONS_DIR}/controllers/lipm_walking_controller.cmake)
 include(${EXTENSIONS_DIR}/plugins/mc_xsens_plugin.cmake)
 
-AddProject(mc_udp
+AddProject(
+  mc_udp
   GITHUB jrl-umi3218/mc_udp
   GIT_TAG origin/master
   DEPENDS mc_rtc
@@ -15,11 +16,12 @@ AddProject(mc_udp
 option(CDADANCE_AUTO_MODE "Automatic demo" OFF)
 option(CDADANCE_REAL_ROBOT_MODE "Set to ON to run on the real robot" OFF)
 
-set(ARGS "") 
+set(ARGS "")
 list(APPEND ARGS "-DCDADANCE_AUTO_MODE=${CDADANCE_AUTO_MODE}")
 list(APPEND ARGS "-DCDADANCE_REAL_ROBOT_MODE=${CDADANCE_REAL_ROBOT_MODE}")
 message(STATUS "CDADance will build with CMAKE_ARGS=${ARGS}")
-AddProject(CDADance
+AddProject(
+  CDADance
   GITHUB arntanguy/CDADance
   GIT_TAG origin/main
   CMAKE_ARGS ${ARGS}
