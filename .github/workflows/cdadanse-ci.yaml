@@ -1,9 +1,11 @@
 name: CDADance Demo (Devcontainer)
 
 on:
+  # Listen to a repository dispatch event by the name of `dispatch-event`
+  # sent on push to CDADance's main branch
   repository_dispatch:
     types:
-    - build-jammy
+    - dispatch-event
   push:
     branches:
       - '**'
