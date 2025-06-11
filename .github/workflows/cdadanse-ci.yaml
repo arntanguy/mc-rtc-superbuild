@@ -5,7 +5,7 @@ on:
   # sent on push to CDADance's main branch
   repository_dispatch:
     types:
-    - dispatch-event
+    - dispatch-cdadance
   push:
     branches:
       - '**'
@@ -39,21 +39,6 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Free Disk Space (Ubuntu)
-      uses: jlumbroso/free-disk-space@main
-      with:
-        # this might remove tools that are actually needed,
-        # if set to "true" but frees about 6 GB
-        tool-cache: true
-        # all of these default to true, but feel free to set to
-        # "false" if necessary for your workflow
-        android: true
-        dotnet: true
-        haskell: true
-        large-packages: true
-        docker-images: true
-        swap-storage: true
-
     - uses: actions/checkout@v3
       with:
         submodules: recursive
@@ -68,6 +53,10 @@ jobs:
           echo "This is not a release, using latest tag"
           echo "RELEASE_TAG=latest" >> $GITHUB_ENV
         fi
+
+
+    - name: Free Disk Space (Ubuntu)
+      uses: jlumbroso/free-disk-space@main
 
     - name: 'Docker: Build Standalone Release'
       shell: bash
@@ -89,7 +78,7 @@ jobs:
           echo "FROM ${CONTAINER_NAME}:${CONTAINER_TAG}" > .github/devcontainer/${{ matrix.containerName }}/Dockerfile
           cat .github/devcontainer/${{ matrix.containerName }}/Dockerfile
 
-    # Publish cdadance-dev and cdadance-release docker images
+    # Publish cdadance docker images
     - name: "Devcontainer: Build Release Version (main branch of official repository)"
       if: github.ref == 'refs/heads/main' && github.repository == 'isri-aist/cdadance-superbuild'
       uses: devcontainers/ci@v0.3
