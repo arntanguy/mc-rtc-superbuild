@@ -3,7 +3,7 @@ FROM ubuntu:jammy as build
 ARG BUILD_VERSION="devcontainer"
 ARG CMAKE_PRESET="relwithdebinfo"
 
-ARG APT_PACKAGES_STANDALONE="sudo gnupg2 gpg-agent openssh-server wget curl ca-certificates git"
+ARG APT_PACKAGES_STANDALONE="sudo gnupg2 gpg-agent openssh-server wget curl ca-certificates git ccache"
 ARG APT_PACKAGES_DEVCONTAINER="sudo gnupg2 gpg-agent openssh-server wget curl ca-certificates ccache ripgrep rsync clangd git"
 ARG EMAIL="devcontainer@mc-rtc-superbuild.com"
 ARG NAME="mc_rtc devcontainer"

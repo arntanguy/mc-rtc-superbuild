@@ -15,13 +15,20 @@ on:
 
 jobs:
   run:
-    runs-on: ubuntu-24.04
+    # runs-on: self-hosted-arnaud-xmg
+    runs-on: [self-hosted, Linux] # ga-bigci.lirmm 
     strategy:
       fail-fast: false
       matrix:
         containerName: [cdadance-release]
         buildPreset: [cdadance-demo-auto, cdadance-demo-manual, cdadance-simu-auto, cdadance-simu-manual]
+
     steps:
+    - name: Print runner name
+      shell: bash
+      run: |
+          echo "Running on runner: ${{ runner.name }}"
+
     - name: Configure ssh-agent
       uses: webfactory/ssh-agent@v0.9.0
       with:
@@ -31,6 +38,38 @@ jobs:
       shell: bash
       run: |
           ssh-add -l
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 'latest'
+
+    - name: Upgrade NPM
+      shell: bash
+      run: npm install -g npm@latest
+
+    - name: Check NPM Version
+      run: npm -v
+
+    # - name: Install NVM
+    #   shell: bash
+    #   run: |
+    #     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    #     export NVM_DIR="$HOME/.nvm"
+    #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    #     nvm install node
+    #
+    # - name: Verify NVM installation
+    #   shell: bash
+    #   run: |
+    #     export NVM_DIR="$HOME/.nvm"
+    #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    #     nvm --version
+
+    - name: Check docker
+      shell: bash
+      run: |
+          docker ps
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v2
@@ -54,9 +93,10 @@ jobs:
           echo "RELEASE_TAG=latest" >> $GITHUB_ENV
         fi
 
-
-    - name: Free Disk Space (Ubuntu)
-      uses: jlumbroso/free-disk-space@main
+    #
+    # - name: Free Disk Space (Ubuntu)
+    #   if: ${{ runner.name }} != 'self-hosted-ci-arnaud-xmg'
+    #   uses: jlumbroso/free-disk-space@main
 
     - name: 'Docker: Build Standalone Release'
       shell: bash

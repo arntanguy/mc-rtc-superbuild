@@ -1,9 +1,10 @@
 {
   "name": "demo-cdadance-release",
-  "image": "ghcr.io/mc-rtc/cdadance-release:latest",
+  "image": "ghcr.io/mc-rtc/mc-rtc-superbuild:jammy",
 
   "mounts": [
     "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/docker-ws/demo-cdadance-superbuild-jammy,target=/home/vscode/workspace,type=bind,consistency=cached"
   ],
 
   "runArgs": [
