@@ -1,18 +1,12 @@
 {
   "name": "mc-rtc-superbuild-jammy",
 
-  // See .github/devcontainer/ubuntu-22.04/devcontainer.json to see how this image was built
-  // This image contains:
-  // - All of mc-rtc-superbuild dependencies
-  // - A ccache build cache built from the latest sources
-  // - A cython build cache built from the latest sources
-  // - All tools required to build the project
-  // - A sensible default configuration for vscode
-  "image": "ghcr.io/mc-rtc/mc-rtc-superbuild:jammy-devcontainer-latest",
+  // "image": "ghcr.io/isri-aist/mc-rtc-superbuild-private-ci:jammy-devcontainer-cdadance-demo-manual-latest",
+  "image": "ghcr.io/mc-rtc/mc-rtc-superbuild:jammy",
 
   "mounts": [
-    "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,consistency=cached"
-    // "source=${localEnv:HOME}${localEnv:USERPROFILE}/docker-ws/mc-rtc-superbuild-jammy,target=/home/vscode/workspace,type=bind,consistency=cached"
+    "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/docker-ws/mc-rtc-superbuild-romain-jammy,target=/home/vscode/workspace,type=bind,consistency=cached"
   ],
 
   "runArgs": [
@@ -29,6 +23,32 @@
   "containerEnv": {
     "DISPLAY": "${localEnv:DISPLAY}"
   },
+
+  // "postCreateCommand": "source /home/vscode/.docker-entrypoint.sh",
+
+//  "features":
+//  {
+//    "ghcr.io/devcontainers/features/node:1": {},
+//    "ghcr.io/duduribeiro/devcontainer-features/neovim:1.0.1": {},
+//    "ghcr.io/devcontainers/features/github-cli": { "version": "latest" },
+//    "ghcr.io/georgofenbeck/features/lazygit-linuxbinary:1": { "version": "latest" }
+//  },
+//
+//  "customizations": {
+//      "vscode": {
+//          "extensions": [
+//            "twxs.cmake",
+//            "ms-vscode.cmake-tools",
+//            "josetr.cmake-language-support-vscode",
+//            "ms-vscode.cpptools",
+//            "ms-vscode.docker",
+//            "ms-vscode.cpptools-extension-pack",
+//            "ms-vscode-remote.remote-containers",
+//            "ms-python.python",
+//            "GitHub.vscode-github-actions"
+//          ]
+//      }
+//  },
 
   "remoteUser": "vscode",
   "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/superbuild,type=bind",
