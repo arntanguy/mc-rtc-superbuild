@@ -4,7 +4,7 @@ include(${EXTENSIONS_DIR}/gui/mc_rtc-magnum.cmake)
 include(${EXTENSIONS_DIR}/interfaces/mc_mujoco.cmake)
 
 AddProject(HumanRetargetingController
-  GITHUB isri-aist/HumanRetargetingController
-  GIT_TAG origin/master 
+  GITHUB ThomasDuvinage/HumanRetargetingController
+  GIT_TAG origin/ros2
 )
 

@@ -6,7 +6,7 @@
 
   "mounts": [
     "type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix,consistency=cached",
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/docker-ws/mc-rtc-superbuild-romain-jammy,target=/home/vscode/workspace,type=bind,consistency=cached"
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/docker-ws/mc-rtc-superbuild-romain-devcontainer-jammy,target=/home/vscode/workspace,type=bind,consistency=cached"
   ],
 
   "runArgs": [
@@ -21,7 +21,8 @@
   ],
 
   "containerEnv": {
-    "DISPLAY": "${localEnv:DISPLAY}"
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "TERM": "xterm-256color"
   },
 
   // "postCreateCommand": "source /home/vscode/.docker-entrypoint.sh",
