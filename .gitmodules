@@ -1,0 +1,7 @@
+[submodule "extensions/superbuild-extensions"]
+	path = extensions/superbuild-extensions
+	url = https://github.com/mc-rtc/superbuild-extensions
+[submodule "extensions/drcutil-superbuild"]
+	path = extensions/drcutil-superbuild
+	url = https://github.com/ThomasDuvinage/drcutil-superbuild
+	branch = ubuntu2204

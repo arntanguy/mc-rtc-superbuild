@@ -1,0 +1,28 @@
+{
+    "version": 10,
+    "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
+    "configurePresets": [
+        {
+            "name": "rhps1-lirmm",
+            "displayName": "RHPS1 RelWithDebInfo (LIRMM)",
+            "inherits": [
+                "relwithdebinfo"
+            ],
+            "cacheVariables": {
+                "INTERNAL_MACHINE": "ON",
+                "WITH_RHPS1": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "rhps1-lirmm",
+            "displayName": "RHPS1 RelWithDebInfo (LIRMM)",
+            "configurePreset": "rhps1-lirmm",
+            "configuration": "RelWithDebInfo",
+            "targets": [
+                "install"
+            ]
+        }
+    ]
+}
