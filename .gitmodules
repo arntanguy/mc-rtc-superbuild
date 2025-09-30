@@ -3,5 +3,8 @@
 	url = https://github.com/mc-rtc/superbuild-extensions
 [submodule "extensions/drcutil-superbuild"]
 	path = extensions/drcutil-superbuild
-	url = https://github.com/ThomasDuvinage/drcutil-superbuild
-	branch = ubuntu2204
+	url = https://github.com/arntanguy/drcutil-superbuild
+	branch = topic/RHPS1-LIRMM
+[submodule "extensions/rhps1-superbuild"]
+	path = extensions/rhps1-superbuild
+	url = https://github.com/isri-aist/rhps1-superbuild.git

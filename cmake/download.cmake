@@ -1,12 +1,37 @@
-# Download a file to the given file and error immediately if the download fails
+# DownloadFile
+# -------------
+# Downloads a file from a URL to a destination path, verifies its SHA256 hash,
+# and retries on failure. Skips download if the file is already present, the URL
+# matches, and the hash is correct, unless FORCE is specified.
+#
+# Arguments:
+#   URL             - The URL to download from.
+#   DESTINATION     - The local file path to save the downloaded file.
+#   EXPECTED_SHA256 - The expected SHA256 hash of the file (empty string to skip hash check).
+#   FORCE           - (Optional) If specified as the fourth argument, always download the file.
+#
+# Usage:
+#   DownloadFile("https://example.com/file.tar.gz" "/tmp/file.tar.gz" "abc123...")
+#   DownloadFile("https://example.com/file.tar.gz" "/tmp/file.tar.gz" "abc123..." FORCE)
 function(DownloadFile URL DESTINATION EXPECTED_SHA256)
-  if(DEFINED "${DESTINATION}_URL")
-    if("${${DESTINATION}_URL}" STREQUAL "${URL}" AND DEFINED
-                                                     "${DESTINATION}_DOWNLOAD_OK"
-    )
-      return()
+  set(FORCE_DOWNLOAD OFF)
+  if(ARGC GREATER 3)
+    if("${ARGV3}" STREQUAL "FORCE")
+      set(FORCE_DOWNLOAD ON)
     endif()
   endif()
+
+  if(NOT FORCE_DOWNLOAD)
+    if(DEFINED "${DESTINATION}_URL")
+      if("${${DESTINATION}_URL}" STREQUAL "${URL}" AND DEFINED "${DESTINATION}_DOWNLOAD_OK")
+        if(EXISTS "${DESTINATION}")
+          return()
+        endif()
+      endif()
+    endif()
+  endif()
+
+
   unset(${DESTINATION}_DOWNLOAD_OK CACHE)
   set(${DESTINATION}_URL
       "${URL}"
