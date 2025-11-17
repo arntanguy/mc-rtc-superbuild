@@ -36,6 +36,13 @@ if(DPKG)
   endif()
 endif()
 
+if(PIP_DEPENDENCIES)
+  message(STATUS "Installing PIP dependencies: ${PIP_DEPENDENCIES}")
+  execute_process(
+    COMMAND ${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} -m pip install ${PIP_DEPENDENCIES}
+  )
+endif()
+
 if(WITH_ROS_SUPPORT AND ROS_DISTRO)
   if(DPKG)
     if(${DISTRO} STREQUAL "buster")

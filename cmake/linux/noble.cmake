@@ -23,13 +23,41 @@ set(APT_DEPENDENCIES
     # python-is-python3
     libnotify-dev
     # python3-git
-    cython3
-    python3-numpy
-    python3-coverage
-    python3-setuptools
-    python3-pytest
-    pre-commit
+    # cython3
+    # python3-numpy
+    # python3-coverage
+    # python3-setuptools
+    # python3-pytest
+    # pre-commit
 )
+# Pin to ubuntu's noble official packages versions
+# set(PIP_DEPENDENCIES
+#     "cython==3.0.8"
+#     "numpy==1.26.4"
+#     "coverage==7.4.4"
+#     "setuptools==68.1.2"
+#     "pytest==7.4.4"
+#     "pre-commit==3.6.2"
+# )
+
+# ubuntu jammy versions
+set(PIP_DEPENDENCIES
+    "setuptools==59.6.0"
+    "cython==0.29.28"
+    "numpy==1.21.5"
+    "coverage==6.2"
+    "pytest==6.2.5"
+    "pre-commit"
+    "catkin_pkg"
+)
+# set(PIP_DEPENDENCIES
+#     "setuptools==59.6.0"
+#     "cython==3.0.8"
+#     "numpy==1.21.5"
+#     "coverage==6.2"
+#     "pytest==6.2.5"
+#     "pre-commit"
+# )
 if(BUILD_BENCHMARKS)
   list(APPEND APT_DEPENDENCIES libbenchmark-dev)
 endif()

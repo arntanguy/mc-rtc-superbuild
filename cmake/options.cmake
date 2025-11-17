@@ -84,9 +84,10 @@ if(MC_RTC_SUPERBUILD_DEFAULT_PYTHON)
     # we should add options to options.cmake to specify a custom name for the venv
     set(MC_RTC_SUPERBUILD_VENV_NAME
         "mc-rtc-venv"
-        CACHE STRING "Name of the Python virtualenv to create/use"
+        CACHE STRING "Name of the Python venv environment to create/use"
     )
-    #handle_noble_virtualenv(${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} ${DISTRO})
+    # handle_noble_virtualenv(${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} ${DISTRO})
+    handle_conda_env(${MC_RTC_SUPERBUILD_VENV_NAME} ${DISTRO})
   endif()
   find_program(
     MC_RTC_SUPERBUILD_PRE_COMMIT
