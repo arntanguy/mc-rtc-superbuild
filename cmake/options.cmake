@@ -53,7 +53,19 @@ if(MC_RTC_SUPERBUILD_DEFAULT_PYTHON)
   message("-- Use Python for install: ${MC_RTC_SUPERBUILD_DEFAULT_PYTHON}")
 endif()
 
-if(MC_RTC_SUPERBUILD_DEFAULT_PYTHON)
+if(DISTRO STREQUAL "noble")
+  # on ubuntu noble onwards, pip requires a virtualenv
+  # detect if we are already in one and if not create one for mc-rtc
+  # we should add options to options.cmake to specify a custom name for the venv
+  set(MC_RTC_SUPERBUILD_VENV_NAME
+      "mc-rtc-venv"
+      CACHE STRING "Name of the Python venv environment to create/use"
+  )
+  # handle_noble_virtualenv(${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} ${DISTRO})
+  handle_conda_env(${MC_RTC_SUPERBUILD_VENV_NAME} ${DISTRO})
+endif()
+
+if(MC_RTC_SUPERBUILD_DEFAULT_PYTHON AND NOT DISTRO STREQUAL "noble")
   execute_process(
     COMMAND ${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} -m site --user-base
     OUTPUT_VARIABLE MC_RTC_SUPERBUILD_DEFAULT_PYTHON_USER_BASE
@@ -77,17 +89,6 @@ if(MC_RTC_SUPERBUILD_DEFAULT_PYTHON)
     set(MC_RTC_SUPERBUILD_DEFAULT_PYTHON_BIN_HINT
         "${MC_RTC_SUPERBUILD_DEFAULT_PYTHON_USER_BASE}/bin"
     )
-  endif()
-  if(DISTRO STREQUAL "noble")
-    # on ubuntu noble onwards, pip requires a virtualenv
-    # detect if we are already in one and if not create one for mc-rtc
-    # we should add options to options.cmake to specify a custom name for the venv
-    set(MC_RTC_SUPERBUILD_VENV_NAME
-        "mc-rtc-venv"
-        CACHE STRING "Name of the Python venv environment to create/use"
-    )
-    # handle_noble_virtualenv(${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} ${DISTRO})
-    handle_conda_env(${MC_RTC_SUPERBUILD_VENV_NAME} ${DISTRO})
   endif()
   find_program(
     MC_RTC_SUPERBUILD_PRE_COMMIT
