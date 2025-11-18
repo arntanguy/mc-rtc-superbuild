@@ -49,6 +49,7 @@ set(PIP_DEPENDENCIES
     "pytest==6.2.5"
     "pre-commit"
     "catkin_pkg"
+    "cmake>=3.20.0"
 )
 # set(PIP_DEPENDENCIES
 #     "setuptools==59.6.0"

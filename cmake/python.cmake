@@ -48,7 +48,8 @@ macro(handle_conda_env ENV_NAME)
   # Set default paths and Python version
   set(MICROMAMBA_PATH "${CMAKE_INSTALL_PREFIX}/micromamba")
   set(MICROMAMBA_BIN "${MICROMAMBA_PATH}/bin/micromamba")
-  set(DEFAULT_PYTHON_VERSION "3.10")
+  #set(DEFAULT_PYTHON_VERSION "3.10")
+  set(DEFAULT_PYTHON_VERSION "3.9")
   set(ENV{PYTHONPATH} "")
 
   # Create MICROMAMBA_PATH/bin if it doesn't exist
@@ -104,18 +105,18 @@ macro(handle_conda_env ENV_NAME)
     message(STATUS "Conda environment '${ENV_NAME}' already exists")
   endif()
 
-  # Install ROS 2 Jazzy in the conda environment
-  # message(STATUS "Installing ROS 2 Jazzy in conda environment '${ENV_NAME}'")
-  # execute_process(
-  #   COMMAND ${MICROMAMBA_BIN} install -y -n ${ENV_NAME} -p ${MAMBA_ROOT_PREFIX}/envs/${ENV_NAME} ros-jazzy-desktop
-  #   RESULT_VARIABLE ROS_INSTALL_RESULT
-  # )
-  # if(NOT ROS_INSTALL_RESULT EQUAL 0)
-  #   message(FATAL_ERROR "Failed to install ROS 2 Jazzy in conda environment '${ENV_NAME}'")
-  # endif()
+  execute_process(
+    COMMAND ${MICROMAMBA_BIN} install -y -n ${ENV_NAME} -c conda-forge -c robostack-humble ros-humble-desktop
+    RESULT_VARIABLE INSTALL_RESULT
+  )
+  if(NOT INSTALL_RESULT EQUAL 0)
+    message(FATAL_ERROR "Failed to install ros-humble-desktop in ${ENV_NAME}")
+  endif()
+
 
   # Set Python and pip paths
   set(CONDA_ENV_PATH "${MAMBA_ROOT_PREFIX}/envs/${ENV_NAME}")
+  set(ENV{CONDA_DEFAULT_ENV} "${ENV_NAME}")
   set(MC_RTC_SUPERBUILD_DEFAULT_PYTHON
       "${CONDA_ENV_PATH}/bin/python"
       CACHE INTERNAL ""
@@ -124,6 +125,10 @@ macro(handle_conda_env ENV_NAME)
       "${CONDA_ENV_PATH}/bin/pip"
       CACHE INTERNAL ""
   )
+
+  set(ENV{PATH} "${CONDA_ENV_PATH}/bin:$ENV{PATH}")
+  set(ENV{CONDA_PREFIX} "${CONDA_ENV_PATH}")
+  set(ENV{PYTHONPATH} "${CONDA_ENV_PATH}/lib/${DEFAULT_PYTHON_VERSION}/site-packages:$ENV{PYTHONPATH}")
 
   set(MC_RTC_SUPERBUILD_DEFAULT_PYTHON "${CONDA_ENV_PATH}/bin/python")
   message(STATUS "Using Python executable: ${MC_RTC_SUPERBUILD_DEFAULT_PYTHON}")
