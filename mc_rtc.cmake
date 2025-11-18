@@ -53,7 +53,7 @@ AddProject(
   # GITHUB jrl-umi3218/SpaceVecAlg
   # GIT_TAG origin/master
   GITHUB arntanguy/SpaceVecAlg
-  GIT_TAG origin/topic/nanobind
+  GIT_TAG origin/topic/nanobind NANOBIND
   DEPENDS ${SpaceVecAlg_DEPENDS}
   APT_PACKAGES libspacevecalg-dev python-spacevecalg python3-spacevecalg
 )
@@ -89,6 +89,7 @@ AddProject(
   RBDyn
   # GITHUB jrl-umi3218/RBDyn
   # GIT_TAG origin/master
+  NANOBIND
   GITHUB arntanguy/RBDyn
   GIT_TAG origin/topic/nanobind
   DEPENDS SpaceVecAlg
@@ -230,7 +231,7 @@ AddProject(
   # GITHUB jrl-umi3218/mc_rtc
   # GIT_TAG origin/master
   GITHUB arntanguy/mc_rtc
-  GIT_TAG origin/topic/nanobind
+  GIT_TAG origin/topic/nanobind NANOBIND NANOBIND_DOCS
   CMAKE_ARGS -DMC_LOG_UI_PYTHON_EXECUTABLE=${MC_LOG_UI_PYTHON_EXECUTABLE}
              ${MC_RTC_ROS_OPTION} ${MC_RTC_EXTRA_OPTIONS}
   DEPENDS ${mc_rtc_DEPENDS}

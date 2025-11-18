@@ -96,8 +96,15 @@ add_custom_target(
 
 function(AddProject NAME)
   get_property(MC_RTC_SUPERBUILD_SOURCES GLOBAL PROPERTY MC_RTC_SUPERBUILD_SOURCES)
-  set(options NO_NINJA NO_COLOR NO_SOURCE_MONITOR CLONE_ONLY SKIP_TEST
-              SKIP_SYMBOLIC_LINKS
+  set(options
+      NO_NINJA
+      NO_COLOR
+      NO_SOURCE_MONITOR
+      CLONE_ONLY
+      SKIP_TEST
+      SKIP_SYMBOLIC_LINKS
+      NANOBIND
+      NANOBIND_DOCS
   )
   set(oneValueArgs
       ${MC_RTC_SUPERBUILD_SOURCES}
@@ -585,6 +592,34 @@ This is likely a conflict between different extensions."
         true
     )
   endif()
+
+  # Post-install step to build nanobind python bindings
+  if(NANOBIND_BINDINGS AND ADD_PROJECT_ARGS_NANOBIND)
+    string(TOLOWER "${NAME}" name_lower)
+    list(
+      APPEND
+      EXTRA_INSTALL_COMMAND
+      COMMAND
+      ${CMAKE_COMMAND}
+      --build
+      "${BINARY_DIR}"
+      --target
+      ${name_lower}-nanobind-bindings
+    )
+    if(ADD_PROJECT_ARGS_NANOBIND_DOCS)
+      list(
+        APPEND
+        EXTRA_INSTALL_COMMAND
+        COMMAND
+        ${CMAKE_COMMAND}
+        --build
+        "${BINARY_DIR}"
+        --target
+        ${name_lower}-nanobind-docs
+      )
+    endif()
+  endif()
+
   if(MC_RTC_SUPERBUILD_VERBOSE)
     message("=============== ${NAME} ===============")
     message("SOURCE_DIR: ${SOURCE_DIR}")
