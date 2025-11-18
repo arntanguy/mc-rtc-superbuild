@@ -28,10 +28,7 @@ set(APT_DEPENDENCIES
     # python3-git
 )
 
-set(PIP_DEPENDENCIES
-  sphinx sphinx-autoapi sphinx-book-theme
-)
-
+set(PIP_DEPENDENCIES nanobind scikit-build-core sphinx sphinx-autoapi sphinx-book-theme)
 
 if(BUILD_BENCHMARKS)
   list(APPEND APT_DEPENDENCIES libbenchmark-dev)
