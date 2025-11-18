@@ -32,6 +32,7 @@
             ],
             "cacheVariables": {
                 "PYTHON_BINDING": "OFF",
+                "NANOBIND_BINDINGS": "OFF",
                 "WITH_ROS_SUPPORT": "OFF"
             },
             "condition": {
@@ -39,7 +40,26 @@
                 "lhs": "$env{UBUNTU_VERSION}",
                 "rhs": "noble"
             }
+        },
+        {
+            "name": "relwithdebinfo-noble-nanobind",
+            "displayName": "RelWithDebInfo (noble, no ROS, nanobind)",
+            "inherits": [
+                "relwithdebinfo"
+            ],
+            "cacheVariables": {
+                "PYTHON_BINDING": "OFF",
+                "NANOBIND_BINDINGS": "ON",
+                "WITH_ROS_SUPPORT": "OFF",
+                "BUILD_TESTING": "OFF"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "$env{UBUNTU_VERSION}",
+                "rhs": "noble"
+            }
         }
+
     ],
     "buildPresets": [
         {
@@ -64,6 +84,15 @@
             "name": "relwithdebinfo-noble",
             "displayName": "RelWithDebInfo (ubuntu noble)",
             "configurePreset": "relwithdebinfo-noble",
+            "configuration": "RelWithDebInfo",
+            "targets": [
+                "install"
+            ]
+        },
+        {
+            "name": "relwithdebinfo-noble-nanobind",
+            "displayName": "RelWithDebInfo (ubuntu noble, nanobind)",
+            "configurePreset": "relwithdebinfo-noble-nanobind",
             "configuration": "RelWithDebInfo",
             "targets": [
                 "install"

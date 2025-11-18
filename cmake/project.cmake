@@ -162,6 +162,23 @@ function(AddProject NAME)
     AptInstall(${APT_DEPENDENCIES})
   endif()
 
+  # Handle pip dependencies
+  if(NANOBIND_BINDINGS)
+    if(DEFINED PIP_DEPENDENCIES AND NOT "${PIP_DEPENDENCIES}" STREQUAL "")
+      foreach(PKG ${PIP_DEPENDENCIES})
+        execute_process(
+          COMMAND ${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} -m pip install "${PKG}"
+          RESULT_VARIABLE pip_result
+          OUTPUT_VARIABLE pip_output
+          ERROR_VARIABLE pip_error
+        )
+        if(NOT pip_result EQUAL 0)
+          message(WARNING "Failed to install pip package: ${PKG}\n${pip_error}")
+        endif()
+      endforeach()
+    endif()
+  endif()
+
   if(USE_MC_RTC_APT_MIRROR AND ADD_PROJECT_ARGS_APT_PACKAGES)
     set(APT_PACKAGES)
     foreach(PKG ${ADD_PROJECT_ARGS_APT_PACKAGES})
