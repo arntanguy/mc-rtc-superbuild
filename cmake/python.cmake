@@ -1,5 +1,9 @@
 # Usage example (after DISTRO and MC_RTC_SUPERBUILD_DEFAULT_PYTHON are set):
 # handle_noble_virtualenv(${MC_RTC_SUPERBUILD_DEFAULT_PYTHON} ${DISTRO})
+#
+# NOTE: Since we are within cmake, and spawning cmake sub-processes, we cannot source the activation script for the virtualenv
+#
+# Instead we set VENV_PATH and MC_RTC_SUPERBUILD_DEFAULT_PYTHON to point to the virtualenv's python executable. These should be used whenever python is invoked. See also GetCommandPrefix in cmake/command-prefix.cmake
 macro(handle_noble_virtualenv PYTHON_EXEC DISTRO)
   if(${DISTRO} STREQUAL "noble")
     # Check if we are already in a virtualenv
@@ -17,6 +21,7 @@ macro(handle_noble_virtualenv PYTHON_EXEC DISTRO)
         STATUS
           "Already in the expected Python virtualenv: ${MC_RTC_SUPERBUILD_VENV_NAME}"
       )
+      set(VENV_PATH "$ENV{VIRTUAL_ENV}")
     else()
       set(VENV_PATH "${CMAKE_INSTALL_PREFIX}/${MC_RTC_SUPERBUILD_VENV_NAME}")
       message(STATUS "Creating Python virtualenv at ${VENV_PATH} for Ubuntu Noble")
@@ -26,19 +31,12 @@ macro(handle_noble_virtualenv PYTHON_EXEC DISTRO)
       if(NOT VENV_RESULT EQUAL 0)
         message(FATAL_ERROR "Failed to create Python virtualenv at ${VENV_PATH}")
       endif()
-      # Re-execute python from the venv for subsequent pip installs
+      # update which python to use
+      # to use the VENV python version you should use ${MC_RTC_SUPERBUILD_DEFAULT_PYTHON}
       set(MC_RTC_SUPERBUILD_DEFAULT_PYTHON
           "${VENV_PATH}/bin/python"
           CACHE INTERNAL ""
       )
-      # "Activate" the venv for subsequent commands by setting Python and pip paths
-      set(MC_RTC_SUPERBUILD_DEFAULT_PIP
-          "${VENV_PATH}/bin/pip"
-          CACHE INTERNAL ""
-      )
-      # set environment variables for subprocesses
-      set(ENV{VIRTUAL_ENV} "${VENV_PATH}")
-      set(ENV{PATH} "${VENV_PATH}/bin:$ENV{PATH}")
     endif()
   endif()
 endmacro()

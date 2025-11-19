@@ -438,6 +438,8 @@ This is likely a conflict between different extensions."
     "-DPYTHON_BINDING_FORCE_PYTHON2:BOOL=${PYTHON_BINDING_FORCE_PYTHON2}"
     "-DPYTHON_BINDING_FORCE_PYTHON3:BOOL=${PYTHON_BINDING_FORCE_PYTHON3}"
     "-DPYTHON_BINDING_BUILD_PYTHON2_AND_PYTHON3:BOOL=${PYTHON_BINDING_BUILD_PYTHON2_AND_PYTHON3}"
+    "-DPYTHON_EXECUTABLE=${MC_RTC_SUPERBUILD_DEFAULT_PYTHON}"
+    "-DVIRTUAL_ENV=${VENV_PATH}"
   )
 
   handle_compiler_launcher(CMAKE_ARGS)
@@ -489,14 +491,18 @@ This is likely a conflict between different extensions."
       set(CONFIGURE_SOURCE_DIR ${SOURCE_DIR})
     endif()
     set(CONFIGURE_COMMAND
-        ${COMMAND_PREFIX} ${EMCMAKE} ${CMAKE_COMMAND} -G "${GENERATOR}" -B
-        "${BINARY_DIR}" -S "${CONFIGURE_SOURCE_DIR}" ${CMAKE_EXTRA_ARGS} ${CMAKE_ARGS}
+        ${COMMAND_PREFIX} ${EMCMAKE} ${CMAKE_COMMAND} -E env ${MC_RTC_SUPERBUILD_ENV}
+        ${CMAKE_COMMAND} -G "${GENERATOR}" -B "${BINARY_DIR}" -S
+        "${CONFIGURE_SOURCE_DIR}" ${CMAKE_EXTRA_ARGS} ${CMAKE_ARGS}
     )
   else()
     if("${ADD_PROJECT_ARGS_CONFIGURE_COMMAND}" STREQUAL "")
       set(CONFIGURE_COMMAND ${CMAKE_COMMAND} -E true)
     else()
-      set(CONFIGURE_COMMAND ${COMMAND_PREFIX} ${ADD_PROJECT_ARGS_CONFIGURE_COMMAND})
+      set(CONFIGURE_COMMAND
+          ${COMMAND_PREFIX} ${CMAKE_COMMAND} -E env ${MC_RTC_SUPERBUILD_ENV}
+          ${CMAKE_COMMAND} ${ADD_PROJECT_ARGS_CONFIGURE_COMMAND}
+      )
     endif()
   endif()
   # -- Build command
@@ -595,7 +601,6 @@ This is likely a conflict between different extensions."
 
   # Post-install step to build nanobind python bindings
   if(NANOBIND_BINDINGS AND ADD_PROJECT_ARGS_NANOBIND)
-    string(TOLOWER "${NAME}" name_lower)
     list(
       APPEND
       EXTRA_INSTALL_COMMAND
@@ -604,7 +609,7 @@ This is likely a conflict between different extensions."
       --build
       "${BINARY_DIR}"
       --target
-      ${name_lower}-nanobind-bindings
+      ${NAME}-nanobind-bindings
     )
     if(ADD_PROJECT_ARGS_NANOBIND_DOCS)
       list(
@@ -615,7 +620,7 @@ This is likely a conflict between different extensions."
         --build
         "${BINARY_DIR}"
         --target
-        ${name_lower}-nanobind-docs
+        ${NAME}-nanobind-docs
       )
     endif()
   endif()
@@ -627,6 +632,7 @@ This is likely a conflict between different extensions."
     message("GIT_REPOSITORY: ${GIT_REPOSITORY}")
     message("GIT_TAG: ${GIT_TAG}")
     message("CONFIGURE_COMMAND IS: ${CONFIGURE_COMMAND}")
+    message("COMMAND_PREFIX IS: ${COMMAND_PREFIX}")
     message("BUILD_COMMAND IS: ${BUILD_COMMAND}")
     message("INSTALL_COMMAND IS: ${INSTALL_COMMAND}")
     message("EXTRA_INSTALL_COMMAND IS: ${EXTRA_INSTALL_COMMAND}")
