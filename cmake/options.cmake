@@ -28,9 +28,9 @@ option(LINK_COMPILE_COMMANDS
 )
 
 set(BUILD_PARALLEL_JOBS
-    0
+    "0"
     CACHE
-      INTEGER
+      STRING
       "Number of parallel jobs to use when building. If 0, ommit option (Ninja: unlimited, make: 1)"
 )
 
