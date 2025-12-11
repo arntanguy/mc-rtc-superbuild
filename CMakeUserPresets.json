@@ -16,7 +16,10 @@
                 "WITH_MC_RTDE": "OFF",
                 "WITH_UR_MODERN_DRIVER": "OFF",
                 "WITH_UR_RTDE": "OFF",
-                "WITH_PANDA_BRACE": "ON"
+                "WITH_PANDA_BRACE": "ON",
+                "WITH_MC_FRANKA": "ON",
+                "WITH_ROS_SUPPORT": "ON",
+                "SUPERBUILD_OVERRIDE_SHELL": "zsh"
             }
         },
         {
