@@ -16,6 +16,28 @@
             }
         },
         {
+            "name": "relwithdebinfo-apt-head",
+            "displayName": "RelWithDebInfo (APT packages)",
+            "inherits": [
+                "relwithdebinfo"
+            ],
+            "cacheVariables": {
+                "USE_MC_RTC_APT_MIRROR": "ON",
+                "USE_MC_RTC_APT_MIRROR_STABLE": "OFF"
+            }
+        },
+        {
+            "name": "relwithdebinfo-apt-stable",
+            "displayName": "RelWithDebInfo (APT packages)",
+            "inherits": [
+                "relwithdebinfo"
+            ],
+            "cacheVariables": {
+                "USE_MC_RTC_APT_MIRROR": "ON",
+                "USE_MC_RTC_APT_MIRROR_STABLE": "ON"
+            }
+        },
+        {
             "name": "relwithdebinfo-noros",
             "displayName": "RelWithDebInfo (no ROS)",
             "inherits": [
@@ -62,6 +84,24 @@
             "name": "relwithdebinfo",
             "displayName": "RelWithDebInfo",
             "configurePreset": "relwithdebinfo",
+            "configuration": "RelWithDebInfo",
+            "targets": [
+                "install"
+            ]
+        },
+        {
+            "name": "relwithdebinfo-apt-head",
+            "displayName": "RelWithDebInfo",
+            "configurePreset": "relwithdebinfo-apt-head",
+            "configuration": "RelWithDebInfo",
+            "targets": [
+                "install"
+            ]
+        },
+        {
+            "name": "relwithdebinfo-apt-stable",
+            "displayName": "RelWithDebInfo",
+            "configurePreset": "relwithdebinfo-apt-stable",
             "configuration": "RelWithDebInfo",
             "targets": [
                 "install"
